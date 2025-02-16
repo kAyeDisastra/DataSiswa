@@ -109,23 +109,16 @@ public function update(Request $request, $id)
 
     public function search(Request $request)
     {
-        $cari = $request->input('cari'); // Menangkap nilai input pencarian
-    
-        // Jika ada pencarian, lakukan query berdasarkan nama_siswa atau nis
+        $cari = $request->input('cari'); 
+        
+        // Query tetap dalam bentuk paginate
         $data = Siswa::where('nama_siswa', 'like', '%' . $cari . '%')
                      ->orWhere('nis', 'like', '%' . $cari . '%')
                      ->paginate(12);
     
-        // Jika tidak ada data, set $data menjadi array kosong
-        if ($data->isEmpty()) {
-            $data = []; // Untuk menghindari null pada $data
-        }
-    
-        // Kembalikan data pencarian dan request ke view
         return view('admin.search', compact('data', 'cari'));
     }
-    
-    public function show($id)
+        public function show($id)
 {
     $siswa = Siswa::findOrFail($id);
     return view('admin.show', compact('siswa'));

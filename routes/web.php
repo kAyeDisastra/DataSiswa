@@ -5,6 +5,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 
 
@@ -49,3 +50,5 @@ Route::get('/user/{id}', [UserController::class, 'show'])->name('user.show');
 
     // umbul umbul
     Route::put('/profile', [ProfileController::class, 'update'])->name('profile.update'); // Untuk mengupdate profil
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+    

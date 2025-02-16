@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-use App\Models\Siswa;  // Pastikan Anda mengimpor model yang relevan. Jika menggunakan model lain, sesuaikan nama model di sini.
+use App\Models\Siswa;
+use App\Models\Kelas;
+use App\Models\Ekskul;  // Pastikan Anda mengimpor model yang relevan. Jika menggunakan model lain, sesuaikan nama model di sini.
 use App\Models\User;  // Pastikan Anda mengimpor model yang relevan
 
 class UserController extends Controller
@@ -47,5 +49,16 @@ class UserController extends Controller
             // Kirim data siswa dan user ke view
             return view('user.show', compact('siswa', 'user'));
 }
+
+public function dashboard()
+{
+    $data = Siswa::paginate(12); // Ambil data siswa
+    $kelas = \App\Models\Kelas::all(); // Ambil semua kelas dari database
+    $ekskul = \App\Models\Ekskul::all(); // Ambil semua ekskul dari database
+
+    return view('user.dashboard', compact('data', 'kelas', 'ekskul'));
+}
+
+
 
 }

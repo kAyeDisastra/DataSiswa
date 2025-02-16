@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container">
-    <!-- Navbar di atas -->
+    <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Dashboard</a>
@@ -44,9 +44,9 @@
                     <div class="row justify-content-center">
                         @if($data->isNotEmpty())
                             @foreach ($data as $row)
-                                <div class="col-md-4 mb-4">
-                                    <div class="card">
-                                        <img src="{{ asset('uploads/' . $row->foto) }}" class="card-img-top" alt="...">
+                                <a href="{{ route('user.show', $row->id) }}" class="siswa-link text-decoration-none col-md-4 mb-4">
+                                    <div class="card siswa-card">
+                                        <img src="{{ asset('uploads/' . $row->foto) }}" class="card-img-top" alt="Foto {{ $row->nama_siswa }}">
                                         <div class="card-body">
                                             <h5 class="card-title text-center">{{ $row->nama_siswa }}</h5>
                                         </div>
@@ -55,7 +55,7 @@
                                             <li class="list-group-item">Jurusan: {{ $row->jurusan }}</li>                            
                                         </ul>
                                     </div>
-                                </div>
+                                </a>
                             @endforeach
                         @else
                             <div class="col-12">
@@ -71,4 +71,19 @@
         </div>
     </div>
 </div>
+
+<style>
+    .siswa-link {
+        text-decoration: none;
+    }
+
+    .siswa-card {
+        transition: transform 0.2s ease-in-out;
+    }
+
+    .siswa-card:hover {
+        transform: scale(1.05);
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+</style>
 @endsection

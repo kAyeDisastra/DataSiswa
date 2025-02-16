@@ -1,12 +1,58 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container py-5" style="background-color: #f4f6f9;">
-    <div class="row justify-content-center">
+<style>
+    body {
+        background: url('{{ asset('images/school-background.jpg') }}') no-repeat center center fixed;
+        background-size: cover;
+    }
+    .sidebar {
+        position: fixed;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(0, 0, 0, 0.8);
+        color: white;
+        padding: 20px;
+        border-radius: 0 10px 10px 0;
+    }
+    .sidebar a {
+        display: block;
+        color: white;
+        padding: 10px;
+        text-decoration: none;
+        transition: 0.3s;
+    }
+    .sidebar a:hover {
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 5px;
+    }
+    .welcome-text {
+        text-align: center;
+        color: white;
+        font-size: 2rem;
+        font-weight: bold;
+        text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.5);
+    }
+</style>
+
+<div class="sidebar">
+    <a href="{{ route('user.dashboard') }}">🏠 Dashboard</a>
+    <a href="{{ route('user.search') }}">🔍 Cari Siswa</a>
+    @if(Auth::user() && Auth::user()->role == 'admin')
+        <a href="{{ route('admin.manage') }}">⚙️ Kelola Data</a>
+    @endif
+    <a href="{{ route('logout') }}">🚪 Logout</a>
+</div>
+
+<div class="container py-5">
+    <div class="welcome-text">Selamat Datang di SMKN 2 Sukabumi!</div>
+    
+    <div class="row justify-content-center mt-4">
         <div class="col-lg-10">
             <div class="card shadow-lg border-0 rounded-lg">
                 <div class="card-header bg-dark text-white text-center py-4">
-                    <h3 class="font-weight-bold mb-0" style="color: #ffffff;">📌 Dashboard</h3>
+                    <h3 class="font-weight-bold mb-0">📌 Dashboard</h3>
                 </div>
                 <div class="card-body p-4">
                     <div class="d-flex justify-content-center mb-4">
@@ -22,12 +68,6 @@
                         </form>
                     </div>
 
-                    @if (session('status'))
-                        <div class="alert alert-success text-center" role="alert">
-                            {{ session('status') }}
-                        </div>
-                    @endif
-
                     <div class="row">
                         @foreach ($data as $row)
                             <div class="col-md-4 mb-4">
@@ -38,17 +78,12 @@
                                             <a href="{{ route('user.show', $row->id) }}" class="siswa-link text-decoration-none text-dark">
                                                 {{ $row->nama_siswa }}
                                             </a>
-                                            
                                         </h5>
                                     </div>
                                     <ul class="list-group list-group-flush">
                                         <li class="list-group-item"><i class="fas fa-id-card-alt text-primary"></i> <strong>NIS:</strong> {{ $row->nis }}</li>
                                         <li class="list-group-item"><i class="fas fa-graduation-cap text-success"></i> <strong>Jurusan:</strong> {{ $row->jurusan }}</li>
                                     </ul>
-                                    <!-- Admin-specific buttons like Edit and Delete are not shown to regular users -->
-                                    <div class="card-footer bg-light text-center">
-                                        <!-- No Edit or Delete for regular users -->
-                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -58,27 +93,4 @@
         </div>
     </div>
 </div>
-
-<script>
-    document.addEventListener("DOMContentLoaded", function () {
-    const siswaLinks = document.querySelectorAll('.siswa-link');
-
-    siswaLinks.forEach(link => {
-        link.addEventListener('click', function (event) {
-            event.preventDefault();  // Hapus baris ini jika ingin menggunakan tautan standar
-            const card = this.closest('.siswa-card');
-
-            // Tambahkan efek perubahan warna
-            card.style.backgroundColor = "#d1ecf1";  // Warna biru muda
-            card.style.transition = "background-color 0.3s ease-in-out";
-
-            // Redirect ke halaman detail setelah delay
-            setTimeout(() => {
-                window.location.href = this.href;
-            }, 200);
-        });
-    });
-});
-</script>
-
 @endsection
